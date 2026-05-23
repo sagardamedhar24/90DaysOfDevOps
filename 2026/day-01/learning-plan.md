@@ -1,3 +1,4 @@
+# Day-1 of 90DaysOfDevOps
 # My 90 Day DevOps Learning plan 
 
 # About Me
@@ -5,16 +6,15 @@ I am a working professional with more than 6 years of experience in IT Industry,
 as an Application Support Engineer/Technical Support Engineer role. 
 
 # My understanding of DevOps & Cloud Engineering
-As per me, DevOps is not a only a role, but it is a mindset, looking towards the daily tasks,
-in order to deploy, build and scale any application on the server, so that end-users can access and use applications
-without any issues. The word DevOps itself shows its purpose i.e. Devlopement + Operations.
-Also, it is not a process to learn every tool rather than understands the system design & its architechure,
+As per me, DevOps is not only a role, but it is a mindset, looking towards the daily tasks,
+in order to deploy, build, and scale any application on the server, so that end-users can access and use applications
+without any issues. The word DevOps itself shows its purpose i.e., Development + Operations.
+Also, it is not a process to learn every tool rather than understand the system design & its architecture,
 so that we can solve any problem that may arises during any application operations. This is a real DevOps, according to me. 
 
-# Why I am starting learning DevOps
-As I stated above, I am working in IT Industry since more than 6 years as a Support person, I think, I could contribute 
-in this domain in more efficient way. My main focus is to learn the DevOps skill set, upgrade my self with latest technologies 
-in current AI/Agentic AI era and catch the better job opportunities in the market. So that, I can give better life to
+# Why am I starting to learn DevOps
+As I stated above, I am working in the IT Industry since more than 6 years as a Support person I think, I could contribute 
+in this domain in more efficient way. My main focus is to learn the DevOps skill set, upgrade my self with latest technologies in the current AI/Agentic AI era, and catch better job opportunities in the market. So that I can give a better life to
 my family members. 
 
 # 3 clear goals for next 90 days
