@@ -1,4 +1,4 @@
-# Linux-practice : Process and Services
+# Day 04 - Linux-practice : Process and Services
 + Check Running process:
 + I used the Process-related commands below and noticed that every command has its own uses:
 - ps aux:
