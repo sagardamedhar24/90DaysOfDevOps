@@ -46,4 +46,31 @@ It contains the majority of executable commands like ls, cp, cat, chown, chmod, 
 * `/opt`: This is reserved for optional, standalone, third party applications or software packages. Large closed-source application often installs on their own
 sub-folders. I tried by hitting the `ls -l` command under this directory, but not found any directory under this. Received 0 output.
 
+## Part-02: Scenario Based Practice
+**Scenario-1** : Service not starting
+Check If service is running
+* Q.1) How do you check if the 'nginx' service is running?
+1.  `systemctl status nginx` - It shows the if the service is active, failed or stopped. 
+* I noticed that, service is running and active. 
+<img width="881" height="290" alt="image" src="https://github.com/user-attachments/assets/e027fcae-7da8-4dc8-ac17-ccdb863dca53" />
+
+2. `systemctl list-units --type=service` - List All Services
+* Using this, I checked and listed all the services.
+3. `systemctl is-enabled nginx` - Check if Service is enabled on boot.
+* I noticed that service is enabled on boot.
+ <img width="446" height="58" alt="image" src="https://github.com/user-attachments/assets/7f6c5030-d355-4079-aba7-2753ef54ba31" />
+4. `journalctl -u nginx -50` - Check logs for the service.
+* In the logs, I found that the service is started whenever the system is booted. And, stopped when I logged out the EC2 instance.
+  <img width="895" height="181" alt="image" src="https://github.com/user-attachments/assets/1987715d-2391-4123-af21-cf875cc445d7" />
+
+ * Using this scenario, I understood that to check/troubleshoot the service first to check if it is running or not. If not running, we can check and list all services to find for particular service. Also, if it is enabled/not, we can check if it is enabled on boot or not.
+
+**Scenario-2** : High CPU Usage
+- Your manager reports that the application server is slow. You SSH into the server. What commands would you run to identify which process is using high CPU?
+1. `top` & `htop` - Used these commands to find which processes/services are using high CPU. But, not find any service/process with high CPU.
+ <img width="889" height="360" alt="image" src="https://github.com/user-attachments/assets/dddc2a3c-eba7-441f-a30d-e25137843a7f" />
+2. `ps aux --sort=%cpu | head -10` - This command has listed the top 10 processes with high CPU usage.
+
+
+
 
