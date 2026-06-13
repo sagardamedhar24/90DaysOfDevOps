@@ -59,17 +59,50 @@ Check If service is running
 3. `systemctl is-enabled nginx` - Check if Service is enabled on boot.
 * I noticed that service is enabled on boot.
  <img width="446" height="58" alt="image" src="https://github.com/user-attachments/assets/7f6c5030-d355-4079-aba7-2753ef54ba31" />
+
 4. `journalctl -u nginx -50` - Check logs for the service.
 * In the logs, I found that the service is started whenever the system is booted. And, stopped when I logged out the EC2 instance.
   <img width="895" height="181" alt="image" src="https://github.com/user-attachments/assets/1987715d-2391-4123-af21-cf875cc445d7" />
 
- * Using this scenario, I understood that to check/troubleshoot the service first to check if it is running or not. If not running, we can check and list all services to find for particular service. Also, if it is enabled/not, we can check if it is enabled on boot or not.
+ * Using this scenario, I understood that to check/troubleshoot the service, first, check if it is running or not. If not running, we can check and list all services to find a particular service. Also, if it is enabled/not, we can check if it is enabled on boot or not.
 
 **Scenario-2** : High CPU Usage
 - Your manager reports that the application server is slow. You SSH into the server. What commands would you run to identify which process is using high CPU?
 1. `top` & `htop` - Used these commands to find which processes/services are using high CPU. But, not find any service/process with high CPU.
  <img width="889" height="360" alt="image" src="https://github.com/user-attachments/assets/dddc2a3c-eba7-441f-a30d-e25137843a7f" />
 2. `ps aux --sort=%cpu | head -10` - This command has listed the top 10 processes with high CPU usage.
+   <img width="616" height="140" alt="image" src="https://github.com/user-attachments/assets/b745fb97-5b11-43c8-9367-79bd6b8a5ecf" />
+
+3. `ps -p 2 -o comm=` - I am using this command to find the process name with pID = 2, as per the high CPU usage. Using this we can easiy identify, which process exactly consuming high CPU and in this case the process name: 'kthreadd' is having high CPU usage. 
+   <img width="347" height="39" alt="image" src="https://github.com/user-attachments/assets/e8410e36-8454-425f-a6a2-d72309d32cc7" />
+
+**Scenario-3** : Finding Service Logs
+- A developer asks: "Where are the logs for the 'cron' service"? The service is managed by systemd. what command would you use?
+1. `systemctl status cron` - Using this command first I checked whether cron service is running or not. And, I noticed that it is running actively and enabled.
+  <img width="601" height="121" alt="image" src="https://github.com/user-attachments/assets/c73e910c-5d85-49c7-a838-f99e00429ee5" />
+
+3. `journalctl -u cron` - By this command, we can find the logs of the 'cron' service. I found all the logs for the cron service.
+   <img width="842" height="337" alt="image" src="https://github.com/user-attachments/assets/70eeb6fc-ac4f-44d7-9a57-21ad60d95c1c" />
+
+4. `journalctl -u cron -n 10` - By this command, I found last 10 lines of logs for cron service.
+   <img width="722" height="125" alt="image" src="https://github.com/user-attachments/assets/db3cac18-5704-4505-8854-1460b123b16f" />
+
+5. `journalctl -u cron -f` - Using this command, I can see live running logs for the cron service. We can use this command for realtime app log monitoring.
+   <img width="746" height="131" alt="image" src="https://github.com/user-attachments/assets/2016ae50-1368-4e2c-9f2d-a1a4ee97606e" />
+
+**Scenario-4** : File Permission Issue
+* Q. If you have created a script i.e .sh file but while executing the .sh script, you are getting 'Permission Denied' error. What command would you use to fix the issue?
+
+1. `touch demo.sh` - Using this command, I have created a sh script file with the name 'demo.sh'.
+2. `vim demo.sh` - I have opened the Vim text editor and added some Linux commands and adding those command output in Day7.txt file. However, while running the 'demo.sh' file, got Permission denied error.
+3. `ls -l demo.sh` - By this command, I checked the current permission of demo.sh file and noticed 664 i.e. read/write for owner, read/write for group and only read for other users. So, noticed that owner does not having execute 'x' permission to demo.sh file.
+4. `chmod 764 demo.sh` - Using this command, I have provided execute permission to owner for demo.sh file. And, when check again permission for this file, I found its color changed to green. 
+5. `./demo.sh` - Now, file has been executed and got the output in day7.txt file.
+<img width="659" height="202" alt="image" src="https://github.com/user-attachments/assets/2e97c5dd-b5d6-49f5-86c6-95f1f8f43d83" />
+<img width="915" height="362" alt="image" src="https://github.com/user-attachments/assets/cb6159e6-1aa0-4996-b0df-a3d81941e256" />
+
+
+
 
 
 
