@@ -39,13 +39,32 @@
   <img width="956" height="455" alt="image" src="https://github.com/user-attachments/assets/fef07f84-2087-42d2-b445-a8b4fa61ce87" />
 
 * And, then I visited the webpage on web-browser : `http://http://56.228.42.234/` .
-* <img width="951" height="351" alt="Nginx-WebPage" src="https://github.com/user-attachments/assets/14a9a19b-e706-4ade-bbca-8cbeabb42734" />
+  <img width="951" height="351" alt="Nginx-WebPage" src="https://github.com/user-attachments/assets/14a9a19b-e706-4ade-bbca-8cbeabb42734" />
 
 ## Part-04 : Extracts Nginx Logs
 * *Step-1* - View Nginx Logs
 * `journalctl -u nginx` - Using this command, I found all the logs of Nginx service.
 * `journalctl -u docker` - Using this command, I found all the logs of Docker service.
-* 
+* `journalctl -u docker >> docker-service.logs` - By using this command, I have created one file with .logs extention and saved log in this file using `journalctl` command.
+* `journalctl -u nginx >> nginx-logs.txt` - By this command, I have created a .txt file and saved logs of nginx service to the file.
+* `scp -i sagar-test.pem ubuntu@56.228.42.234:/home/ubuntu/nginx-logs.txt D:/TrainWithShubham/AWS/` - By `scp` command, I have downloaded the logs file from EC2 server to my local machine.
+* `scp -i sagar-test.pem ubuntu@56.228.42.234:/home/ubuntu/docker-service.logs D:/TrainWithShubham/AWS/` - By this command, I have downloaded the other log file from EC2 server too my local machine.
+  <img width="944" height="388" alt="image" src="https://github.com/user-attachments/assets/aac0ea8a-212f-43fe-aa7c-4fe9afaecd19" />
 
+## Command Used For above tasks:
+- `scp` : Used to transferring files from EC2 server to local machine.
+- `journalctl -u` : Used for viewing the service logs.
+- `systemctl status docker` - Used to find the docker service logs.
+- `ssh -i` - Used to connect EC2 server from local maching using SSH client.
+- `chmod 400 "sagar-test.pem"` - Used for modifying the permission of the .pem file to ensure keys are not viewable public.
+
+## What I learned through todays Practice:
+* Today, I learned how to create the AWS EC2 server and configure it as per our requirement.
+* Learned about SSH (Secure Shell) and connecting to a server from the local system using SSH client.
+* Installation of any application like Docker, Nginx
+* How to find logs of any particular service using the 'journalctl' command.
+* Also, I have learned to transfer files from server to client (i.e. local machine) or vice-versa.
+* Learn about Public Key & Private Key
+* Understood how important key-based authentication is in Linux servers. And, got to know about the practical usage of symmetric and Asymmetric Key authentication and how they help to avoid passwordless authentication.
 
 
