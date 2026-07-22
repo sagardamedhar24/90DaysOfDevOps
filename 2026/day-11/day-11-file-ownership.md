@@ -74,3 +74,9 @@
 * `ls -lR directory-name` : To find all directory & sub-directories & files details recursively (-R).
   
 ## What I learned
+
+Through this practice, I learned to manage file ownership.
+* I learned how effectively we can manage file ownership using `chown` & `chgrp` Linux commands.
+* Using owner(u) & group(g) options, we can either provide read, write & execute access to an individual user and a group of users to ensure the security of the files/directory.
+* The commands `chown` & `chgrp` can not be accessed through a normal user, but we need a sudo user to use these commands.
+* I even learned to manage ownership of any file/directory and its subdirectories collectively to avoid repetitive actions.   
