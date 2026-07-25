@@ -67,4 +67,28 @@
 * Learn about Public Key & Private Key
 * Understood how important key-based authentication is in Linux servers. And, got to know about the practical usage of symmetric and Asymmetric Key authentication and how they help to avoid passwordless authentication.
 
+## Steps for connecting one EC2 Server from another EC2 Server instance using SSH Client:
+1. Suppose we want to connect from Server A to Server B.
+2. To do so, we first need the private key of Server B on Server A and the public key of Server B on Server B. PFB snapshot.
+
+   <img width="685" height="356" alt="image" src="https://github.com/user-attachments/assets/f5bcc235-d652-43e9-94cd-7b303ae802e3" />
+   
+3. For this, we can generate the private & public keys of Server B using `ssh-keygen` command on Server B. As per the snapshot from Server B.
+   
+   <img width="701" height="188" alt="image" src="https://github.com/user-attachments/assets/4bc079ce-dc27-40c9-a980-ddf2152d5e9e" />
+
+4. Then copy the private key of server B on Server A under any file with .pem extension, which is mainly present in the file without or with .pem extension on path: */home/ubuntu/.ssh*. (for eg. id_ed25519)
+Snapshot from Server A:
+
+<img width="580" height="77" alt="image" src="https://github.com/user-attachments/assets/104885b3-bffe-43e8-bfa5-c422f4890faf" />
+
+5. Update the `chmod 400 .pem file` permission of the newly created .pem file. (e.g. `chmod 400 devops-practices-2.pem`)
+6. Also, we need to place the Server B public key with extension .pub (e.g. id_ed25519.pub) under 'authorized_keys' file. As per the snapshot from Server B.
+
+   <img width="410" height="131" alt="image" src="https://github.com/user-attachments/assets/d1706505-ea00-4b84-91ac-6e893b07582e" />
+
+8. Then, we can connect to Server B from Server A using the `ssh -i` command.
+
+   e.g. ssh -i devops-practices-2.pem ubuntu@ec2-00-00-000-000.eu-north-1.compute.amazonaws.com
+
 
