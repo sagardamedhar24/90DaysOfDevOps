@@ -11,7 +11,7 @@
 3. Print Hello, DevOps! using echo
 4. Make it executable and run it
 
-**Attached script:**
+**Attached script:** [Script](scripts/hello.sh)
 
 Snapshot: 
 
@@ -29,7 +29,7 @@ Snapshot:
    * A variable for your ROLE (e.g. "DevOps Engineer")
    * Print: 'Hello, I am `<NAME>` and I am a `<ROLE>`'
 
-**Attached script:**
+**Attached script:**[Script](scripts/variable.sh)
 
    Snapshot:
 
@@ -47,7 +47,7 @@ Snapshot:
    * Asks for their favourite tool
    * Prints: 'Hello `<name>`, your favourite tool is `<tool>`'
 
-**Attached script:**
+**Attached script:**[Script](scripts/greet.sh)
 
    Snapshot:
 
@@ -58,7 +58,7 @@ Snapshot:
    * Takes a number using `read`
    * Prints whether it is positive, negative or zero
 
-**Attached script:**
+**Attached script:**[Script](scripts/check_number.sh)
   
   Snapshot:
 
@@ -69,7 +69,7 @@ Snapshot:
    * check if the file is exists using -f
    * Prints appropriate message
 
-**Attached script:**
+**Attached script:**[Script](scripts/file_check.sh)
 
 Snapshot: 
 
@@ -83,7 +83,7 @@ Snapshot:
    * If 'y' - Runs the systemctl status `<service>` and prints whether its active or not
    * if 'n' - prints "skipped"
 
-**Attached script:**
+**Attached script:**[Script](scripts/server_check.sh)
 
 Snapshot:
 
