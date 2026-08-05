@@ -78,8 +78,23 @@ Snapshot:
 ## Task 5: Combine It All
 
 1. Create a server_check.sh that:
-   * Stores a service name in variable (e.g. nginx, sshd)
+   * Stores a service name in a variable (e.g., nginx, sshd)
    * Asks the user: "Do you want to check the service status? (y/n)"
    * If 'y' - Runs the systemctl status `<service>` and prints whether its active or not
    * if 'n' - prints "skipped"
 
+**Attached script:**
+
+Snapshot:
+
+<img width="605" height="371" alt="image" src="https://github.com/user-attachments/assets/146cdcc9-3c3d-49d0-94db-f915a0af036c" />
+
+
+## What I Learned
+1. Today, I wrote my first shell script and learned what exactly shell scripting helps us to automate tasks.
+2. Learned how we can use a variable for accessing dynamic values.
+3. How important the shebang (#!) line is in any shell script, because it helps to interpret the exact shell that requires while executing any shell script.
+4. How can we ask the user for input from the end user, and depending on that user input, we process the next commands/line?
+5. Learned the uses of conditional statements (if-else) and understood script flow control.
+6. Also, while writing shell scripts, I faced some issues. So I understood how we can troubleshoot any script execution flow to track the reason why it is breaking.
+7.  Last but not least, through this practice, I learned basic syntax & minor space even can cause issues while running the script. 
