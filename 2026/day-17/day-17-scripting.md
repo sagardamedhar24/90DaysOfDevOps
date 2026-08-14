@@ -2,7 +2,7 @@
 ## Task 1: For Loop
 1. Create `for_loop.sh` that:
    * Loops through a list of 5 fruits and prints each one.
-   * **Script Code:**
+   * **Script Code:** [for_loop.sh](Scripts/for_loop.sh)
      ```bash
      #!/bin/bash
      # Loops through a list of 5 fruits and prints each one
@@ -10,13 +10,13 @@
         echo "This is $fruits"
      done
      ```
-   * **Script Output:**
+   * **Script Output:** 
 
      <img width="653" height="374" alt="image" src="https://github.com/user-attachments/assets/c2dbff2f-4f6c-4125-91be-861ae1d3865d" />
 
 2. Create `count.sh` that:
    * Prints numbers from 1 to 10 using a for loop.
-   * **Script Code:**
+   * **Script Code:** [count.sh](Scripts/count.sh)
      ```bash
      #!/bin/bash
      # Prints numbers from 1 to 10 using a for loop
@@ -32,7 +32,7 @@
    * Takes a number from the user
    * Conunts down to 0 using a while loop
    * Prints "Done!" at the end.
-   * **Script Code:**
+   * **Script Code:** [countdown.sh](Scripts/countdown.sh)
      ```bash
      #!/bin/bash
      read -p "Enter the number : " num
@@ -50,7 +50,7 @@
    * Accepts a name as $1
    * Prints `Hello,` `<name>!`
    * If no argument is passed, prints "Usage:./greet.sh"
-   * **Script Code:**
+   * **Script Code:** [greet.sh](Scripts/greet.sh)
      ```bash
      #!/bin/bash
      # This is a practice demo for argument usag
@@ -68,7 +68,7 @@
    * Prints total number of arguments
    * Prints all arguments
    * Prints the script name
-   * **Script Code:**
+   * **Script Code:** [args_deo.sh](Scripts/args_demo.sh)
      ```bash
      #!/bin/bash
      echo "Hello, $1"
@@ -88,7 +88,7 @@
    * Checks if each package is installed
    * Install it if missing, skips if already present
    * Print status for each package
-   * **Script Code:**
+   * **Script Code:** [install_packages.sh](Scripts/install_packages.sh)
      ```bash
       #!/bin/bash
       #Install packages via this scripts which are not already installed from the provided list
@@ -130,7 +130,7 @@
    * Tries to navigate into it
    * Creates a file inside
    * Use `||` operator to print the error if any steps fails
-   * **Script Code:**
+   * **Script Code:** [safe_script.sh](Scripts/safe_script.sh)
      ```bash
      #!/bin/bash
      # set -e : Exit on error
@@ -147,7 +147,7 @@
      <img width="594" height="59" alt="image" src="https://github.com/user-attachments/assets/884eaa86-8328-49d8-a22d-5fcf907c3453" />
    
 2. Modify your install_packages.sh to check if the script is being run as root — exit with a message if not.
-   * **Script Code:**
+   * **Script Code:** [modified_install_packages.sh](Scripts/modified_install_packages.sh)
      ```bash
      #!/bin/bash
      #Install packages via this scripts which are not already installed from the provided list
