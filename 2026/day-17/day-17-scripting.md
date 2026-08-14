@@ -123,3 +123,75 @@
 
 
 
+## Task 5: Error Handling
+1. Create a `safe_script.sh` that:
+   * Uses `set -e` at the top (exit on error)
+   * Tries to create a directory `/tmp/devops-test`
+   * Tries to navigate into it
+   * Creates a file inside
+   * Use `||` operator to print the error if any steps fails
+   * **Script Code:**
+     ```bash
+     #!/bin/bash
+     # set -e : Exit on error
+
+     set -e
+     mkdir /tmp/devops-test || echo "Error: Directory already exists"
+     cd /tmp/devops-test || echo "Cannot change to directory"
+     touch devops.txt || echo "Failed to create a file"
+     ```
+   * **Output:**
+
+     <img width="680" height="470" alt="image" src="https://github.com/user-attachments/assets/1dea90c2-8437-4b95-8e48-4d1d4c967c17" />
+
+     <img width="594" height="59" alt="image" src="https://github.com/user-attachments/assets/884eaa86-8328-49d8-a22d-5fcf907c3453" />
+   
+2. Modify your install_packages.sh to check if the script is being run as root — exit with a message if not.
+   * **Script Code:**
+     ```bash
+     #!/bin/bash
+     #Install packages via this scripts which are not already installed from the provided list
+     # Check if script is being run by root user by adding few if check at the beginning of this script
+
+     if [[ $EUID -ne 0 ]]; then
+        echo "Error: This script must be run as root user."
+        exit 1
+     fi
+
+     for packages in "nginx" "curl" "wget" ; do
+        #Install package if not installed
+        if dpkg -s "$packages" &>/dev/null; then
+                echo "Package $packages is already installed"
+        else
+                echo "Installing $packages"
+                sudo apt-get install -y "$packages"
+        fi
+
+        # Check service status for packages
+        if [[ "$packages" == "nginx" ]]; then
+                status=$(systemctl is-active nginx)
+                echo "$packages service is $status"
+        else
+                if command -v "$packages" &>/dev/null; then
+                        echo "$packages command is available"
+                else
+                        echo "$packages command is not available"
+                fi
+        fi
+     done
+     ```
+  * **Output:**
+
+    <img width="802" height="456" alt="image" src="https://github.com/user-attachments/assets/96d67450-6e4c-40d9-8d59-04b8e4039fc3" />
+
+## What I Learned:
+* Today, I learned new things about writing and making shell scripts as per our needs.
+* Understood the usage of `for-loop` in shell scripting for iterating over multiple items/numbers without repeating our code.
+* Understood the usage of `while-loop` and implemented a few scripts to iterate the same block of commands/steps if we are not sure about the exact iteration count or want to execute them until a specific condition is met.
+* Learned how command-line arguments can be used in shell scripting without defining/declaring them in the script.
+* Understood how we can use `$#`, `$@`, `$1`, `$0`, etc for achieving our tasks without hardcoding values in our script.
+* Also, learned to automate our daily or repetitive tasks using shell scripting, such as installing some packages/tools on our server/local machine, and verifying their status, etc.
+* Learned to write production-grade scripts using an error handling mechanism with different options like `set -e`, `set -u`, `set -o pipefail`, etc, to avoid any unnecessary issues in the production environment.
+* Implemented and understood that we can add a root user execution check in any of our scripts as per the requirements, like some scripts can't be executed without admin users, such as creating users, managing groups, etc.
+* Understood the usage of `||` operator for printing any customized error message if some bash scripts do not show us traces of execution and to show visibility of what is happening through the scripts.
+* I faced many issues while writing & executing the scripts during practice and learned through them by breaking them again and again.
