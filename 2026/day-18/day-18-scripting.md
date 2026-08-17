@@ -4,7 +4,8 @@
    * A function `greet` that takes a name as an argument and prints `Hello, <name>!`
    * A function `add` that takes two numbers and prints their sum
    * Call both functions from the script
-   * **Script Code:**
+   * **Script Code:** 
+
     ```bash
     # --- Creating Functions ----
     function greet() {
@@ -116,7 +117,7 @@
 1. Create a `local_demo.sh` with:
    * A function that uses `local` keyword for variables.
    * Show that `local` variable don't leak outside the function.
-   * Compare with a function that uses regular variable.
+   * Compare with a function that uses regular variables.
    * **Script Code:**
      ```bash
       #!/bin/bash
@@ -156,4 +157,78 @@
   5. A function to print top 5 CPU-consuming processes
   6. A main function that calls all of the above section headers
   7. Use `set -euo pipefail` at the top
-  
+* **Script Code: **
+  ```bash
+  #!/bin/bash
+  # Script for System Information Report
+  set -euo pipefail
+  # Function to Display hostname & OS Info
+  system_info(){
+        echo "======== Hostname & OS Info ========"
+        echo "Hostname : $(hostname)"
+        echo "OS Name \& Version : $(lsb_release -ds)"
+        echo "Current Login User: $(printenv USER)"
+        echo
+  }
+
+  get_uptime(){
+
+        echo "========= System Uptime ========="
+        echo "Total Uptime: $(uptime -p)"
+        echo "Exact Date & Time of Boot: $(uptime -s)"
+        echo "
+  }
+  get_disk_usage(){
+
+        # df -h | head -n 1 : This commands prints headers at top
+        # df -h | awk 'NR>1' : This will exclude header line from the output
+        # sort -hr -k 5 : This will sort the output of df -h by column 5 (i.e. use %)
+        # head -n 5 : Prints first 5 records
+        echo "======== Disk Usage (Top 5 Disk Usage) ========"
+        df -h | head -n 1; df -h | awk 'NR>1' | sort -hr -k 5 | head -n 5
+        echo
+  }
+
+  get_memory_usage(){
+
+        echo "======== Memory Usage ======="
+        free -h | awk 'NR==2 { print "Total:" $2 " Used:" $3 " Free:" $4 " Available:" $7}'
+        echo
+  }
+  get_cpu_usage(){
+
+        echo "========= Top 5 CPU consuming Processes ========="
+        ps -eo pid,cmd,%cpu --sort=-%cpu | head -n 6
+        echo
+  }
+
+  main(){
+  system_info
+  get_uptime
+  get_disk_usage
+  get_memory_usage
+  get_cpu_usage
+  }
+
+  # Call Main Function
+  main
+  ```
+* **Output:**
+
+  <img width="529" height="437" alt="image" src="https://github.com/user-attachments/assets/8daec28a-c19a-4291-ad38-5689e2c9adff" />
+
+## What I Learned?
+1. Linux Functions: I understood how important functions are for Linux automation. Functions help us to reduce the lenghty script and avoid repetitive code, which can be reused.
+2. Local vs Global Variables:
+   * Local Variables are declared using the `local` keyword before defining any local variable. Whereas regular (global) variables do not require any keyword identification. 
+   * Local variables' scope is only in the same function where it is declared/defined and cannot be accessed outside of the function. But global variables can be a accessible through out the programm/script anywhere.
+   * Local variables prevent functions from accidentally overriding global data, whereas functions with global variables can unintentionally overwrite global variables.
+   * Local variables are automatically deleted from memory once the function exits. Unlike local variables, global variables stay in memory until the entire script execution finishes.
+   * Best use cases of Local Variables: Temp variables, loop counters, or function-specific data.
+   * Base use cases of global variables: Global configurations, shared file paths, or constant values.
+3. Practical Use Cases of `set -euo pipefail`: For writing any strict and safer script, we can use error handling flags so that scripts can fail but by handling errors gracefully.
+   * `set -e`: This flag stops script execution where it finds an error with any command and does not execute the next set of commands.
+   * `set -u`: If we try to use any undefined variable, this flag identifies it and immediately stops the script execution.
+   * `set -o pipefail`: When we write multiple commands using the pipe `(|)` operator, then if any of the commands fail in the pipeline, this flag considers the entire pipeline as failed and stops the script execution.
+4. Understanding basic & advanced Linux command usage, it helps to consolidate all these useful commands for writing a few impactful scripts and generating some basic reports.
+5. This exercise helped me understand how to write standardized, clean, and reusable scripts for the future.
