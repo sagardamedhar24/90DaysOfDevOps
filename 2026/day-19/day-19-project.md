@@ -198,4 +198,49 @@
 2. Calls your backup function.
 3. Logs all output to `/var/log/maintenance.log` with timestamps.
 4. Write the cron entry to run it daily at 1 AM.
+* **Crontab Expression:**
+  ```bash
+    0 1 * * * /bin/bash /home/ubuntu/DevOps-Practices/Day19/scripts/maintenance.sh >> /tmp/cron_maintenance.log 2>&1
+  ```
+* **Script Code:**
+  ```bash
+    #!/bin/bash
+    set -euo pipefail
+    
+    output_log="/var/log/maintenance.log"
+    script_dir="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+    
+    # Redirect all the output through awk to prepend timestamp to every line
+    exec > >(awk '{print strftime("[%Y-%m-%d %H:%M:%S]"), $0}' | sudo tee -a "$output_log") 2>&1
+    
+    echo "------------- Starting Maintenance --------------"
+    
+    echo "Calling Log rotation script...."
+    
+    sudo bash "$script_dir/log_rotate.sh" /var/log/demo
+    
+    echo "Log rotation script execution completed ..."
+    
+    echo "Calling Backup script..."
+    
+    bash "$script_dir/backup.sh" /home/ubuntu/DevOps-Practices/ /home/ubuntu/Backups
+    
+    echo "Backup Script execution completed..."
+    
+    echo "------------- Maintenance Finished ---------------"
 
+  ```
+* **Output:**
+
+<img width="579" height="475" alt="image" src="https://github.com/user-attachments/assets/3e0d5f06-2f86-4ea5-9765-92c8565d651b" />
+
+## What I Learned
+* Through this hands-on practice & building these small but useful utilities, I learned how to:
+1. Efficiently rotate logs and system logs directories organized and clean.
+2. Use `find` with flags like `mtim` to target and filter older logs and files based on date/time.
+3. Apply tools like `gzip` and `tar.gz` to compress large files and significantly reduce disk usage.
+4. Generate unique, timestamped backup files using date formats and implement retention logic to clean up older archives.
+5. Automate task execution using cron to minimize manual effort and capture automated execution logs effectively.
+6. By calling already written scripts/functions into a different script as per our requirement, I learned how we can avoid code repetition, saving time and maintaining a clean architecture.
+
+Overall, this exercise reinforced my shell scripting foundational skills and deepened my understanding of practical DevOps automation.
