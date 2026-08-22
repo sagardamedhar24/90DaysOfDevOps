@@ -1,0 +1,28 @@
+--------- Log Analysis Report ---------- 
+Date of Analysis: Sat Aug 22 18:12:31 UTC 2026
+Log File Name: sample_test.log
+Total Lines Processed: 250
+Total Error Count: 132
+
+----- Top 5 error messages -----
+     14     Write operations failed: Disk partition is read-only.
+     14     Worker node initialization failed: Image pull error.
+     14     Transaction Failed: Insufficient funds or invalid token.
+     14     Secondary node failed to sync replication logs.
+     14     Retry attempt failed to reach remote host.
+
+---- Critical Events ----
+Total Critical Events: 47
+----- Showing top 10 Critical Events ----
+
+6:2026-08-22 10:01:12 CRITICAL [CronJob] Backup process failed: File permission denied.
+13:2026-08-22 10:02:36 CRITICAL [CacheService] User session terminated due to inactivity.
+20:2026-08-22 10:04:00 CRITICAL [AppServer] Retry attempt failed to reach remote host.
+27:2026-08-22 10:05:24 CRITICAL [ApiGateway] 502 Bad Gateway response returned for API route.
+34:2026-08-22 10:06:48 CRITICAL [PaymentGateway] Application startup initiated
+41:2026-08-22 10:08:12 CRITICAL [Database] Write operations failed: Disk partition is read-only.
+48:2026-08-22 10:09:36 CRITICAL [Worker] Worker node initialization failed: Image pull error.
+55:2026-08-22 10:11:00 CRITICAL [StorageCluster] Connection timed out after 3000ms.
+62:2026-08-22 10:12:24 CRITICAL [AuthService] Secondary node failed to sync replication logs.
+69:2026-08-22 10:13:48 CRITICAL [Security] System health check complete. Status: OK.
+
