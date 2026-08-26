@@ -279,4 +279,226 @@ Dir_Path="/Backup"
       ;;
   esac
   ```
-  
+## Task 3: Loops
+**1. `for` loop:** A `for` loop in shell scripting iterates over a list of items or runs a set number of times.
+  * List-Based For Loop: Iterate through a predefined list of words, strings or numbers.
+    Example:
+    ```bash
+    # Loops through fruit lists
+    for fruits in "apple" "mango" "orange" "banana" "papaya"; do
+     echo "This is $fruits"
+    done
+
+    # Loops through numbers from 1 to 5
+    for i in {1..5} ; do
+     echo "$i"
+    done
+    ```
+  * C-Style For Loop: Useful when we need traditional counter logic, with explicit condition and increments.
+    ```bash
+    for (( i=1; i<=5; i++)); do
+      echo "$i"
+    done
+    ```
+**2. `while` Loop:** A `while` loop in Bash runs a block of commands repeatedly as long as a given condition evaluates to 'True' (exit status is '0')
+  * Example:
+    ```bash
+      # Counts up to 5.
+      count=1
+      while [ count -le 5 ]; do
+        echo "Count: $count"
+        ((count++))
+      done
+    ```
+**3. `until` Loop:** An `until` loop in Bash runs the block of commands repeatedly as long as the specified condition evaluates to 'false'. It stops the moment the condition becomes true. *It is the exact inverse of the while loop*.
+  * Example:
+    ```bash
+    # Loops until count is greater than 5.
+    count=1
+    until [ $count -gt 5 ]; do
+    echo "Count : $count"
+      ((count++))
+    done
+    ```
+**4. Loop Control:** Loop control statements in Bash allow you to interrupt, skip, or break out of a single or multi-level loop (like `for`, `while`, `until`) using statements like `break` and `continue`.
+  * `break`: Terminates the loop immediately and jumps to the code following the loop.
+    ```bash
+    for i in {1..10}; do
+      if [ $i -eq 5 ]; then
+        echo "Stopping loop at $i..."
+        break
+      fi
+      echo "Number: $i"
+    done
+    ```
+  * `continue`: Skips the rest of the current iteration and jumps directly to the evaluation step of the next iteration.
+    ```bash
+    for i in {1..5}; do
+      if [ $i -eq 3 ]; then
+        echo "Skipping iteration $i"
+        continue
+      fi
+      echo "Number: $i"
+    done
+    ```
+**5. Looping over files:** Process multiple files matching a specified pattern.
+  * Example:
+    ```bash
+      for file in *.log do
+        # skip if no log file exist.
+        [ -e "$file" ] | continue
+        echo "Processing $file"
+      done
+    ```
+**6. Looping over command output:** Process command output line by line.
+  * Example:
+    ```bash
+    # Process text file line by line
+    ls *.txt | while read LINE; do
+      echo "File: $LINE"
+    done
+
+    # Disk info line by line
+    df -h | while read -r line; do
+      echo "Disk Info: $line"
+    done
+    ```
+## Task 4: Functions
+**1. Defining a function**
+  * Functions in Bash allow you to group reusable code, pass arguments, manage scope, and handle return values.
+  * **Syntax:** Bash supports two standard formats for defining a function.
+  * Without 'function' keyword (Recommended for portability)
+    ```bash
+    myFunction(){
+      echo "Hello Dosto"
+    }
+    ```
+  * By using 'function' keyword
+    ```bash
+    function myFunction(){
+      echo "Hello Dosto"
+    }
+    ```
+**2. Calling a function:** A function can be invoke/called by its name (without parentheses)
+  * Example:
+    ```bash
+    # Define Function
+    myFunction(){
+      echo "Hello Dosto"
+    }
+    # Function call
+    myFunction
+    ```
+**3. Passing arguments to a function:** In Bash, functions do not declare parameters/arguments in their signatures (e.g. func(arg1, arg2)). Instead, arguments are passed as a space-separated list when calling the function and accessed inside using standard positional parameters.  
+  * Example:
+    ```bash
+      # --- Creating Functions ----
+      function greet() {
+      echo "Hello, $1!"
+      }
+      
+      function add() {
+      num1=$1
+      num2=$2
+      sum=$((num1+num2))
+      echo "The sum of two numbers $num1 & $num2 is : $sum"
+      }
+      # --- Calling Function by passing arguments to it ---
+      greet "Sagar"
+      add 5 10
+    ```
+**4. Return Values:** In Shell Scripting, functions do not return values like traditional programming languages. Instead, a Bash function's `return` statement only sets an exit status code (an integer between 0 and 255).
+  * Example: `return`:
+    ```bash
+    #!/bin/bash
+
+    check_service(){
+    systemctl status $1 > /dev/null 2>&1
+    if [ $? -eq 0 ]; then
+            echo "Status: Success ($1 is running)"
+            return 0;
+    else
+            echo "Status: Failed ($1 is stopped or not found)"
+            return 1;
+    fi
+    }
+    check_service "nginx"
+    
+    #capture and print the function's exit code
+    echo "Exit Code: $?"
+    ```
+  * Example: `echo` - Returns output that can be stored in a variable or a text itself.
+    ```bash
+    NAME="Sagar Damedhar"
+    echo "Hello, $NAME"
+    ```
+**5. Local Variables:** Local variables are declared by using `local` keyword, and its scope is limited to the function in which it is declared. All variables used without declaring `local` keyword are treated as global/regular variables.
+  * Example:
+    ```bash
+     #!/bin/bash
+     # Understanding of local and global variables.
+     #set -euo pipefail
+    echo "--- Function with Local Variable ---"
+    # Defining function with local variable
+    function local_demo(){ 
+    
+       local local_var=x
+       echo "Inside Local Demo Function - value of local variable: $local_var";
+    }
+    local_demo #Calling function
+    echo "Outside Local Demo Function - value of local variable: $local_var" # Here local variable can not be accessible and got empty output.
+    
+    echo "--- Function Global/Regular Vairable ---"
+     # Defining function with global (regular) variable.
+    function global_demo(){
+       global_var=y
+       echo "Inside Global Demo Function - value of glogal variable: $global_var";
+    }
+    
+    global_demo # Calling Function
+    echo "Outside Global Demo Function - value of global variable: $global_var";
+    ```
+## Task 5: Text Processing Commands
+**1. `grep` :** Searches for text pattern in files or input.
+  * Syntax:
+    ```bash
+    grep [options] "pattern" [file or directory]
+    ```
+  * Common flags:
+  * `-i` : Case insensitive (Search ignore if letter is Uppercase or Lowercase)
+  * `-r` : Recursively search
+  * `-c` : Count of matching lines per file
+  * `-n` : Line numbers
+  * `-v` : Invert match (Select lines that do not match the pattern)
+  * `-E` : Extended Regex
+  * `-l` : List files (Print only the names of files of containing matches, not the matching pattern)
+  * `-w` : Word boundry (Match whole words only)
+  * `-x` : Exact Line (Match full, exact lines only)
+  * Example:
+    ```bash
+    grep -i "Error" system_log.log
+    grep -r "Main" ./src
+    grep -c "CRITICAL" error.log
+    grep -n "FAILED" system_log.log
+    grep -v "DEBUG" app.log
+    grep -E "error|fail" /var/log/syslog.log
+    ```
+**2. `awk` :** Process or extract text from files or input by columns/fields.
+  * Syntax :
+    ```bash
+    awk 'pattern { action }' input_file
+    ```
+  * Example:
+    ```bash
+    awk '{print $1, $2}' data.txt  # Print first and second column of file.
+    awk '/ERROR/ {print $0}' server.log  #
+    df -h | awk 'NR==2 {print $1, $2}' # print second row of first and second column
+    ```
+**3. `sed`:** (Stream Editor) is a non-interactive text editor tool used to parse, transform, and substitute text in files or data streams line-by-line.
+  * Syntax:
+    ```bash
+    sed [options] 'script' [input_file]
+    ```
+  * Example: 
+    
+    ```
