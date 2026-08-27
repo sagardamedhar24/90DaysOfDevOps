@@ -500,5 +500,110 @@ Dir_Path="/Backup"
     sed [options] 'script' [input_file]
     ```
   * Example: 
+    ```bash
+    # 1. Text Substitution (s/pattern/replacement/flags)
+    sed 's/error/ERROR' app.log  # Replace the first occurrence of ERROR with error per line
+    sed 's/error/ERROR/g' app.log # Global Replacement (ALL occurrences on every line)
+    sed 's/error/ERROR/gi' app.log # Case insensitive global replacement
+    sed '5 s/error/ERROR' app.log # Replace only on specific line (e.g. line 5)
+    
+    # 2. In-Place Editing(-i): Modifies the target file directly instead of printing output on stdout.
+    sed -i 's/search/find/g' file.txt # Edit file in-place
+    sed -i.bak 's/search/find/g' file.txt # Edit file in-place and create a backup file (.bak)
+
+    # 3. Deleting lines (d)
+    sed '3d' file.txt # Delete line 3
+    sed '2,5d' file.txt # Delete line 2 through 5
+    sed '/DEBUG/d' app.log # Delete lines matching pattern
+    sed '/^$/d' file.txt # Delete blank lines
+
+    # 4. Printing specific Lines (-n with p)
+    sed -n '10p' file.txt # Print only line 10
+    sed -n '5,10p' file.txt # Print lines 5 to 10
+    sed -n '/ERROR/p' app.log # Print lines matching a regular expression
+
+    # 5. Inserting, Appending, and Replacing Lines
+    # i = Insert line before match
+    # a = Append line after match
+    # c = Change/replace entire line match
+    sed '1i\Header' file.txt # Insert header at line 1
+    sed '$a\Footer' file.txt # Append 'Footer' after the last line ($)  
+    ```
+**4. `cut`:** It is a lightweight tool used to extract specific sections (column, field, or byte ranges) from each line of a file/input stream, using a delimiter.
+  * Example:
+    ```bash
+    cut -d ":" -f 1 /etc/passwd  # Extract the 1st column from /etc/passwd using column delimiter
+    cut -d ":" -f 1,3 /etc/passwd # Extract the 1st and 3rd columns
+    cut -d ":" -f 1-4 /etc/passwd # Extract columns 1 to 4 (range)
+    ```
+**5. `sort`:** This command rearranges lines of text files in numerical, alphabetical, or custom order.
+  * Example:
+    ```bash
+    sort numbers.txt # Sort alphabetically 
+    sort -n numbers.txt # Numeric Sort: Sort by numerical value.
+    sort -r file.txt # Reverse: Reverse the result of comparison
+    sort -u file.txt # Unique: Output unique lines
+    sort -k 2 data.txt # Key: Sort by a specific column/field position
+    ```
+**6. `uniq`:** It filters out repeated adjacent lines from a text file or input.
+  * Example:
+    ```bash
+    sort names.txt | uniq  # Removes all duplicate lines
+    # Find the top 5 most frequent IP addresses in an access log
+    awk '{print $1}' access.log | sort | uniq -c | sort -nr | head -n 5 
+    ```
+**7. `tr` (translate):** A stream-based utility that translates, squeezes, or deletes characters from standard input.
+  * Example:
+    ```bash
+    echo "hello world" | tr 'a-z' 'A-Z' # convert text to uppercase
+    echo "Sagar Damedhar" | tr ' ', '_' # Replaces spaces with underscore
+    ```
+**8. `wc` (word count):** Prints newline, word, character, and byte counts for files or standard input.
+  * Syntax:
+    ```bash
+    wc [options] [filename]
+    ```
+  * Example:
+    ```bash
+    wc -l app.log # Count total lines in a log file
+    grep "Error" server.log | wc -l # Count how many lines match a pattern
+    wc -w app.log # Count total words
+    wc -c app.log # Count total characters 
+    ```
+**9. `head`/ `tail`:** Prints first or last N lines. 
+  * `head` - Prints the first 10 lines of a file by default.
+  * `tail` - Prints the last 10 lines of a file by default.
+  * Examples:
+    ```bash
+    head /var/log/syslog # Shows lines 1-10
+    tail /var/log/syslog # Shows last 10 lines
+    head -n -5 file.txt # Output everything except the last 5 lines
+    tail -f /var/log/nginx/access.log # Shows live logs of access.log
+    ```
+## Task 6: Useful Patterns and One-Liners
+  * Find and delete files older than N days
+    ```bash
+    find /var/log/ -type f -name "*.gz" -mtime +15 -delete
+    ```
+  * Count lines in all `.log` files
+    ```bash
+    wc -l /var/log/*.log
+    ```
+  * Replace a string across multiple files
+    ```bash
+    sed -i 's/Search/Find/g' /myfile/.*txt
+    ```
+  * Check if a service is running
+    ```bash
+    systemctl is-active --quiet nginx && echo "Running" || echo "Stopped"
+    systemctl is-active --quiet cron && echo "Running" || echo "Stopped"
+    ```
+  * Monitor disk usage with alerts
+    ```bash
+    df -h | awk '$5+0 > 80'; [ -n "$ALERT" ] && echo "$ALERT" | mail -s "Disk Alert on $(hostname)" your.email@example.com
+    ```
+  * Parse CSV or JSON from command line
+    ```bash
     
     ```
+  * Tail a log and filter for errors in real time
