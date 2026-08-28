@@ -2,6 +2,56 @@
 A quick reference guide for Shell Scripting concepts, including basic syntax and indentation of Shell Scripting, loops, and functions.
 Text processing tools, debugging techniques, etc. 
 
+# Quick Reference Table
+| Topic | Syntax | Example |
+| ----- | ------ | ------- |
+| Shebang | `#!/bin/bash` | First line of script |
+| Make executable | `chmod +x filename` | `chmod u+x script.sh` |
+| Run script | `./file.sh` | `./script.st` |
+| Run using bash | `bash file.sh` | `bash script.sh` |
+| Comment | `#` | `# This is a single line comment` |
+| Variable | `VAR="value"` | `NAME="Sagar"` |
+| Variable Use | `$VAR` | `echo "$NAME"` |
+| Read User input | `read VAR` | `read USERNAME` |
+| Aegument | `$1`, `$2` | `./script.sh Sagar Damedhar` |
+| First Argument | `$1` | `./script.sh nginx` |
+| Second Argument | `$2` | `./script.sh nginx apache` |
+| Argument Count | `$#` | `echo "Argument Count: $#"` |
+| All Argument | `$@` | `echo "All Argument: $@` |
+| Script Name | `$0` | `echo "Script name: $0"` |
+| Last Command exit code | `$?` | `echo "$?"` |
+| If | `if [ condition ]; then` | `if [ -f file ]; then` |
+| For loop | `for i in list; do` | `for i in 1 2 3; do` |
+| Function | `name() { ... }` | `greet() { echo "Hi" }` |
+| Grep | `grep pattern file` | `grep -i "ERROR" log.txt` |
+| Awk | `awk '{print $1}' file` | `awk -F: '{print $1}' /etc/passwd` |
+| Sed | `sed 's/old/new/g' file` | `sed -i 's/search/find/g' file.txt` |
+
+# Comparison Operators 
+## String Comparison
+| Operator | Description | Example/Syntaxt |
+| -------- | ------- | ------- |
+| `=` or `==` | Equal | `[[ "$a" == "$b" ]]` |
+| `!=` | Not equal | `[[ "$a" != "$b" ]]` |
+| `-z` | Empty String or length zero | `[[ -z "$a" ]]` |
+| `-n` | String is not empty | `[[ -n "$a" ]]` |
+
+## Integer Comparison 
+| Operator | Description | Example/Syntaxt |
+| -------- | ------- | ------- |
+| `-eq` | Equal To | `[[ $a -eq $b ]]` |
+| `-ne` | Not equal to | `[[ $a -ne $b ]]` |
+| `-lt` | Less than | `[[ $a -lt $b ]]` |
+| `-gt` | Greater than | `[[ $a -gt $b]]` |
+| `-le` | Less than or equal to | `[[ $a -le $b ]]` |
+| `-ge` | Greater than or equal to | `[[ $a -ge $b ]]` |
+
+## Logical Comparison 
+| Operator | Description | Example/Syntaxt |
+| -------- | ------- | ------- |
+| `&&` | Logical AND | Return true if both conditions met to true |
+| `\|\|` | Logical OR | Return true if atlease one condition is true |
+| `!` | Logical NOT | Inverts the boolean state |
 ## Task 1: Basics
 **1. Shebang (`#!/bin/bash`):**
    * What it does? : It tells the Linux OS which interpreter to use for running the rest of the code.
@@ -602,8 +652,56 @@ Dir_Path="/Backup"
     ```bash
     df -h | awk '$5+0 > 80'; [ -n "$ALERT" ] && echo "$ALERT" | mail -s "Disk Alert on $(hostname)" your.email@example.com
     ```
-  * Parse CSV or JSON from command line
-    ```bash
-    
-    ```
   * Tail a log and filter for errors in real time
+    ```bash
+    tail -f /var/log/nginx/error.log | grep -E "ERROR|FAILED"
+    ```
+## Task 7: Error Handling and Debugging
+**1. Exit Codes:** Exit codes are the indication of the previous command or script completion. It gives integer values between 0 to 255.
+  * `?` : Stores a exit status of last command.
+  * `exit 0`: Exit status '0' means a command exited with Success status.
+  * `exit 1`: It denotes a general error and a specific error condition.
+  * Example:
+    ```bash
+    ls file.txt
+    echo "Exit status of ls command:$?"
+
+    if [ -f "file.txt" -eq 0 ]; then
+      echo "File Exists"
+      exit 0
+    else
+      echo "File doesn't exist"
+      exit 1
+    fi   
+    ```
+**2. `set -e`:** Exit immediately after command failure.
+
+**3. `set -u`:** If we used any undefined variable in the script, this flag identifies it and stops the script execution with error "unbound variable".
+
+**4. `set -o pipefail`:** When we try to use pipe (|) for getting a result by combining multiple commands, then this flag stops the script execution if any of the command from this pipeline gets fail.
+
+**5. `set -x`:** It enables the execution tracing by printing each command to the terminal right before executing it, along with it expanded argument.
+
+**6. `trap`:** Is a built-in command, used to catch signals (such as `Control-C`, termination requests, or script exit) and execute specific code or functions when those signals arrive. It is primarily used for cleanup tasks.
+
+  * `trap cleanup EXIT`: It is a standard bash pattern used to ensure temporary files, lock files, or temporary processes are safely removed when a script finishes executing.
+  * Example:
+    ```bash
+    #!/bin/bash
+    set -euo pipefail
+    # create a temporary file
+    TMP_FILE=$(mktemp)
+
+    #define the cleanup function
+    cleanup(){
+      echo "Cleaning up..."
+      rm -f "$TMP_FILE"
+    }
+
+    # Trap the EXIT signal to invoke cleanup automatically
+    trap cleanup EXIT
+
+    # Script logic
+    echo "Working with temporary file: $TMP_FILE"
+    echo "Some data" > "$TMP_FILE"
+    ```
