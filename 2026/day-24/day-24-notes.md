@@ -87,13 +87,110 @@
   * Does not generated new commit ID in merge for existing commits but created one new Merge Commit with different ID.
   * Merge, preserves actual commit history but rebase has re-written it.
 * Why should you never rebase commits that have been pushed and shared with others?
-  * First main point is, rebase creates a new commit ID and rewrite the history, and if we do so after commits pushed and shared with other,
-    they can face the sync issues as they have old commit ID/history and after rebase that got changed to new commit IDs.
-  * Means for shared branches, we should avoid the rebase and instead use merge option, to avoid synchronization & non-fast-forward errors/issues.  
+  * The first main point is that rebase creates a new commit ID and rewrite the history, and if we do so after commits are pushed and shared with others, they can face sync issues as they have the old commit ID/history, and after rebase that has changed to new commit IDs.
+  * For shared branches, we should avoid rebase and instead use the merge option to avoid synchronization & non-fast-forward errors/issues.  
 * When would you use rebase vs merge?
-  * Rebase is good option, when our branch is private and no-one else is using it and we want to update our feature branch history with the latest changes from another branch without creating a merge commit
+  * Rebase is a good option when our branch is private, and no one else is using it, and we want to update our feature branch history with the latest changes from another branch without creating a merge commit
   * Rebase is not a good choice when it comes to shared branches.
-  * Use merge, when we want to combine histories without rewriting existing commits and preserves the actual development history.
+  * Use merge when we want to combine histories without rewriting existing commits and preserve the actual development history.
   * When branches are shared, Merge is a better option.
 
 ## Task 3: Squash Commit vs Merge Commit
+1. Create a branch `feature-profile`, add 4-5 small commits (typo fix, formatting, etc.)
+   * Created a branch `feature-profile` and added 3 commits into it.
+  
+    <img width="673" height="108" alt="image" src="https://github.com/user-attachments/assets/335c8cb1-8504-438b-b54c-85937e797438" />
+
+    <img width="732" height="461" alt="image" src="https://github.com/user-attachments/assets/568c2235-3f91-4b4a-8760-eb4073bbcccc" />
+
+2. Merge `feature-profile` into `main` using `--squash` — what happens?
+   * Switched to `main` branch and merged `feature-profile into it using `--squash` merge.
+   * `git merge --squash feature-profile`
+
+  <img width="749" height="122" alt="image" src="https://github.com/user-attachments/assets/f8ff497e-1d47-4427-a75a-68d1baf1c9dc" />
+
+3. Check git log — how many commits were added to main?
+   * After performing the `--squash` merge, I did not find a commit about that merge in the logs.
+   * Then, after checking the status of the `master` branch using `git status`, I noticed Changes to be committed.
+   * That means that after a squash merge, a new commit is not created automatically, so I have to commit it manually.
+   * And only one commit was added.
+
+<img width="785" height="443" alt="image" src="https://github.com/user-attachments/assets/b48f7a9c-3ec6-4189-8483-3faa376ebe0f" />
+
+4. Now create another branch `feature-settings` and add a few commits.
+   * Created a new branch `feature-settings` from the `master` branch and added a few commits to it.
+
+<img width="766" height="409" alt="image" src="https://github.com/user-attachments/assets/d6a86c97-a83c-4394-97a0-9489eed2687c" />
+
+5. Merge it into main without --squash (regular merge) — compare the history
+   * Merged the `feature-settings` branch into the `master` branch without a squash merge: `git merge feature-settings`
+   * And after comparing the `squash` and regular merge, I found the following points:
+   * Regular merge created a fast-forward merge commit by preserving all commit history. At the same time, squash created a single commit.
+   * Squash merge does not create a new commit automatically; it just prepares changes in the working tree/index.
+
+   <img width="644" height="212" alt="image" src="https://github.com/user-attachments/assets/bcc94cbd-050e-419d-81ce-6255812b167c" />
+
+6. Points to Remember:
+* What does squash merging do?
+  * Squash merge does not create a merge commit automatically, and it only prepares changes in our working tree.
+  * And it does combine the multiple small commits into a single one, and that also need not be performed automatically.
+* When would you use squash merge vs regular merge?
+  * **Squash Merge:**
+  * When our feature branch has many small and messy commits.
+  * When we want to keep our master branch commit history clean and easy to read.
+  * **Regular Merge:**
+  * If you want to preserve complete commit history.
+  * When individual commits are important and meaningful.
+  * If multiple users are working on shared branches.
+* What is the trade-off of squashing?
+  * We get a cleaner main-branch history by using squash if we have many small commits.
+  * Reverting the entire feature can be simple.
+
+## Task 4: Git Stash — Hands-On
+1. Start making changes to a file but do not commit.
+   * Made some changes in `hello.py` on the `feature-profile` branch, without committing the changes.
+
+<img width="664" height="143" alt="image" src="https://github.com/user-attachments/assets/4877ad3c-87cb-49fd-9c22-545d9e65e5af" />
+
+2. Now imagine you need to urgently switch to another branch — try switching. What happens?
+   * Now, tried to switching on different branch but got the error as per the snapshot.
+   * It does not allow me to make the changes.
+
+   <img width="600" height="66" alt="image" src="https://github.com/user-attachments/assets/af84b140-a30c-460d-bf3b-2690a6d296fc" />
+
+3. Use git stash to save your work-in-progress.
+   * Used `git stash` to save my current work to the stash.
+
+<img width="603" height="203" alt="image" src="https://github.com/user-attachments/assets/2eca1084-8411-435c-a3c2-20e30b34d8e6" />
+
+4. Switch to another branch, do some work, and switch back
+   * Switched to the `master` branch successfully after stashing my changes. Did checked some logs and git status.
+
+<img width="596" height="451" alt="image" src="https://github.com/user-attachments/assets/06f3a139-6f03-429a-9b93-835a03e0c496" />
+
+5. Apply your stashed changes using git stash pop
+   * Applied stashed changes using `git stash pop` and verified the changes.
+     
+<img width="485" height="131" alt="image" src="https://github.com/user-attachments/assets/210589a5-e4e8-4cf3-93ce-93b80bb024de" />
+
+6. Try stashing multiple times and list all stashes.
+   * I made multiple changes in different files and stashed my changes.
+   * Stashed using default options `git stash`, which saves our work by default with the last commit message.
+   * Stashed using customer option `git stash -m "message"`, which saves our work in progress with a custom message.
+   * Listed all stashes using `git stash list`
+
+  <img width="663" height="431" alt="image" src="https://github.com/user-attachments/assets/cc813b16-d424-45d3-8d50-34e10b2b4394" />
+
+7. Try applying a specific stash from the list. 
+   * Applied a specific stash from the list by referring to the stash identifier.
+   * e.g. `git stash apply stash@{1}`, `git stash apply stash@{2}`, etc. 
+
+<img width="663" height="431" alt="image" src="https://github.com/user-attachments/assets/f043d08e-0836-456e-8228-20c370a95f77" />
+
+8. Points to Remember:
+* What is the difference between `git stash pop` and `git stash apply`?
+  * `git stash pop`: This option restores the stash using the LIFO (Last In, First Out) rule, one by one. This restores only one stash at a time.
+  * `git stash apply`: If we have some stash changes in the list and we want to pick/restore a specific stash by using a stash identifier, this can be used effectively.
+* When would you use stash in a real-world workflow?
+
+## Task 5: Cherry Picking
