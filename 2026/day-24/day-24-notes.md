@@ -1,9 +1,9 @@
 # Day 24 – Advanced Git: Merge, Rebase, Stash & Cherry Pick
 ## Task 1: Git Merge — Hands-On
-1. Create a new branch `feature-login` from `master`, add a couple of commits to it.
+1. Create a new branch `feature-login` from `master`, and add a couple of commits to it.
    * Created a new branch `feature-login` from master: `git checkout -b feature-login`
-   * Added `hello.py` file and committed it.
-   * Written additional function in the same file and committed it.
+   * Added the `hello.py` file and committed it.
+   * Wrote an additional function in the same file and committed it.
      
   <img width="763" height="413" alt="image" src="https://github.com/user-attachments/assets/18037c79-30c4-47c4-9c71-9bbf7daac9fa" />
 
@@ -192,5 +192,44 @@
   * `git stash pop`: This option restores the stash using the LIFO (Last In, First Out) rule, one by one. This restores only one stash at a time.
   * `git stash apply`: If we have some stash changes in the list and we want to pick/restore a specific stash by using a stash identifier, this can be used effectively.
 * When would you use stash in a real-world workflow?
+  * When we have unfinished work and want to switch branches.
+  * If we are working on any of the urgent bug fixes and we have current feature work that we do not want to lose.
+  * While pulling or merging, if we do not want to lose our work in progress.
 
 ## Task 5: Cherry Picking
+1. Create a branch `feature-hotfix`, make 3 commits with different changes.
+   * Created branch `feature-hotfix` and added 3 commits over it.
+   * However, I found some conflict on previous commits and then added new changes in another file.
+
+<img width="796" height="380" alt="image" src="https://github.com/user-attachments/assets/5029698c-971c-416c-a588-5f6ee195dcdd" />
+
+<img width="766" height="275" alt="image" src="https://github.com/user-attachments/assets/4dd30d2c-d289-455e-9b07-70ae101966a1" />
+
+2. Switch to `main`
+   * Switched to `master`
+
+   <img width="553" height="68" alt="image" src="https://github.com/user-attachments/assets/9a5052ad-07fa-4c11-8837-c3e6864ce40a" />
+ 
+3. Cherry-pick only the second commit from `feature-hotfix` onto `main`
+   * Only picked those changes that I required using `cherry-pick`.
+   * `git cherry-pick commit-hash-code`
+
+<img width="527" height="470" alt="image" src="https://github.com/user-attachments/assets/2f3b4187-994e-4584-a16b-909eb2fbe777" />
+
+4. Verify with git log that only that one commit was applied.
+   * Verified the git log and ensured that only the specific commit was applied.
+   * Also, checked the file and the exact lines of change were added in the file.
+
+  <img width="546" height="195" alt="image" src="https://github.com/user-attachments/assets/f3b57d9b-7309-46c9-acda-75770b279ada" />
+
+5. Points to Remember:
+* What does cherry-pick do?
+  * `git cherry-pick` will take a specific commit from one branch that we want to apply to another branch.
+  * It helps to copy only particular commits that are required instead of copying entire branch changes. 
+* When would you use cherry-pick in a real project?
+  * Whenever we are fixing any kind of bug and want to copy only working commits from a feature branch to apply to the main branch, that time cherry-pick will be very useful.
+* What can go wrong with cherry-picking?
+  * The most common problem I noticed is a merge conflict.
+  * As per my observations, whenever I tried to apply the cherry-pick, I got a conflict issue.
+  * The commits may have dependencies on other commits, so that might get missed.
+  * Excessive use of cherry-pick may create a confusing history. 
