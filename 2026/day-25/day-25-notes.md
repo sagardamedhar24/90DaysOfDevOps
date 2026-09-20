@@ -79,9 +79,9 @@
   * `git revert` has preserved the commit history and also created new commit entry in the log. Whereas git reset' discards the commit history.
 * Why is revert considered safer than reset for shared branches?
   * Because revert preserves the commit history.
-  * It does not rewrite and removes the existing commits.
+  * It does not rewrite or remove the existing commits.
 * When would you use revert vs reset?
-  * **Git Revert:** Best suitable for shared branches. When we want to undo the changes of a specific commit but, at the same time, want to preserve the commit history.
+  * **Git Revert:** Best suited for shared branches. When we want to undo the changes from a specific commit while preserving the commit history.
   * **Git Reset:** Only when I am working on private branches before merging changes with a shared branch. When we want to undo the changes from a specific commit and also want to remove the commit history.
  
   ## Task 3: Reset vs Revert — Summary
@@ -92,6 +92,16 @@
     | Removes commit from history | Yes | NO |
     | Safe for shared/pushed branches | NO | Yes |
     | When to use | Clearing the local commits before pushing | Undoing changes that are pushed |
+
+## Assignment:
+**`git reflog`**: `git reflog` is the most useful Git command for recovering lost commits.
+* It records where `HEAD` and branch references have pointed in your local repository.
+* Suppose we lost two commits by the wrong use of `git reset --hard`, but Git's reflog remembers that `HEAD` previously pointed to those commits.
+* The `git reflog` shows all commits, including those we lost, along with their hash code. PFB snapshot.
+* So, if we wanted to recover the previous state, then using `git reset --hard hash_id/commit_id` we can do that.
+
+<img width="839" height="310" alt="image" src="https://github.com/user-attachments/assets/45fb153c-a854-45af-89c3-4508041ffb58" />
+
 
 ## Task 4: Branching Strategies
 * Research the following branching strategies and document each in your notes with:
@@ -144,7 +154,110 @@
 2. **GitHub Flow:**
 
    **How it Works**
-   * 
-4. **Trunk-Based Development:**
+   * GitHub Flow is a lightweight Git branching workflow designed around small, frequent changes and continuous delivery/deployment.
+   * Unlike Gitflow, it doesn't require separate `develop`, `release`, or `hotfix` branches
+   * The flow starts from the `main` branch, and developers create feature branches from `main`.
+   * Make changes on feature branches and, after pushing, create a pull request (PR) for merging them into `main`.
+   * Once the reviewer reviews the changes and approves them, they will merge them into `main`.
+
+   **Flow/Diagram**
+   ```
+     main
+       |--- feature/login -------|
+       |--- feature/signup ------|--- create PR --> Review PR --> Merge main
+       |--- feature/dashboard ---|
+   ```
+
+   **When/Where to use:**
+   * GitHub Flow works particularly well when a team uses continuous deployment.
+   * Has a Web application or SaaS product.
+   * Want a simple branching model.
+
+   **PROS:**
+   * It has a simple and easy workflow.
+   * Mainly `main` and short-lived feature/bug-fix branches.
+   * Excellent for CI/CD.
+   * Pull Requests provide a place for discussion and review.
+   * Since no permanent develop/release branches are required, this helps to reduce merge overhead.
+
+   **Cons:**
+   * Less suitable for scheduled releases.
+   * Requires strong CI/CD, i.e. requires automated tests, due to frequent merging into `main`.
+   * Requires good PR discipline. Poor reviews and rushed merging can introduce bugs into the code.
+     
+3. **Trunk-Based Development:**
+
+   **How it works?**
+   * It is a Git branching strategy where developers integrate their changes into a single `main` branch, called the 'trunk', very frequently.
+   * Keep branches short-lived.
+   * Instead of having long-lived branches like Gitflow, developers create very short-lived branches.
+   * Make a small change, run automated tests.
+   * Merge the change quickly and deploy it through CI/CD.
+
+   **Flow/Diagram**
+   ```
+     main (trunk)
+       |
+     Create a small branch
+       |
+     code
+       |
+     Run Tests
+       |
+     Pull requests
+       |
+     Review + CI/CD
+       |
+     main/trunk
+       |
+     Deploy.
+   ```
    
+   **When/Where to Use?**
+   * Trunk-Based Development works particularly well for teams practicing:
+   * Continuous Integration
+   * Continuous Delivery/Deployment
+   * Automated testing
+   * Small incremental changes
+
+   **Pros:**
+   * Fewer merge conflicts, because developers integrate frequently.
+   * Fast Feedback: Code gets tested against the latest code quickly.
+   * Easier Integration: Since we don't have huge feature branches containing weeks of changes.
+   * Excellent for CI/CD.
+   * Less Branch management.
+
+   **Cons:**
+   * Requires good automated testing.
+   * Developers need to make small, incremental changes rather than huge changes.
+   * Large features require additional techniques like Feature flags, modular design, or other techniques.
+   * Can be difficult for inexperienced teams.
+
+**Comparison**
+
+| Points | Gitflow | GitHub Flow | Trunk-Based |
+| ------ | ------- | ----------- | ----------- |
+| Main Idea | Structured releases | PR-based development | Continuous integration |
+| Best For | Scheduled releases | Frequent PR-based delivery | Frequent integration/deployment |
+| Long-lived branches | Often | Usually No | No |
+| Short-lived branches | Yes | Yes | Yes |
+| CI/CD Friendly | Good | Excellent | Excellent |
+| Complexity | High | Low | Low |
+
+4. Answers to Questions:
+* Which strategy would you use for a startup shipping fast?
+  * I would generally choose Trunk-Based Development, often combined with Pull Requests + CI/CD + feature flags.
     
+* Which strategy would you use for a large team with scheduled releases?
+  * For a large team with scheduled, versioned releases, Gitflow is generally the better fit because it provides explicit branches for development, release stabilization, and production fixes.
+    
+* Which one does your favorite open-source project use? (Check any repo on GitHub)
+  * A GitHub Flow
+  * Commonly used by many open-source projects on GitHub.
+  * The best example is 'Microsoft Projects', which is based on a PR-based workflow with short-lived branches.
+
+## Task 5: Git Commands Reference Update
+  [Git Command Reference](https://github.com/sagardamedhar24/devops-git-practice/blob/master/git-commands.md)
+
+
+  
